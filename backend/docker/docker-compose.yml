@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  pgadmin: 
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PG_CLIENT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PG_SQL_NAME}
+    restart: always 
+    networks:
+      - comfynetwork
+
+  postgres:
+    image: "postgres:alpine"
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    networks:
+      - comfynetwork
+    restart: always 
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+  postgres-data:
+networks:
+  comfynetwork:
