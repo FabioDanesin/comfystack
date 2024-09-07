@@ -18,3 +18,7 @@ func Singleton[T any]() (t *T) {
 		return val.(*T)
 	}
 }
+
+func RegisterNewSingleton[T any](t *T, key string) {
+	cache.Store(key, t)
+}
