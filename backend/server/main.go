@@ -1,8 +1,8 @@
 package main
 
 import (
+	"comfystack/connections/utils"
 	"comfystack/constants"
-	"comfystack/database/utils"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,7 +15,8 @@ import (
 const environFileName string = "env.json"
 
 type EnvironmentVariablesFileStructure struct {
-	Dbconn []utils.PostgresqlConnString `json:"dbconn"`
+	Dbconn      []utils.PostgresqlConnString `json:"dbconn"`
+	SiteOptions utils.SiteConnectionType     `json:"siteopts"`
 }
 
 func pErrorAndExit(err string) {
@@ -47,10 +48,14 @@ func initialize() {
 	utils.RegisterNewSingleton(&envs, constants.Vars)
 }
 
+func initEngine(eng *gin.Engine) {
+
+}
+
 func main() {
 	initialize()
 	var engine *gin.Engine = gin.Default()
-	engine.GET("version", func(ctx *gin.Context) {
+	engine.GET("/version", func(ctx *gin.Context) {
 		ctx.String(http.StatusAccepted, "1.0.0")
 	})
 	engine.Run("localhost:8000")
