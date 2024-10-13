@@ -27,3 +27,8 @@ type PostgresqlConnString struct {
 	Dbname     string    `json:"name"`
 	Paramspecs []PgParam `json:"params"`
 }
+
+type EnvironmentVariablesFileStructure struct {
+	Dbconn      []PostgresqlConnString `json:"dbconn"`
+	SiteOptions SiteConnectionType     `json:"siteopts"`
+}

@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"comfystack/connections/utils/functional"
 	"comfystack/types"
+	"comfystack/utils/functional"
 	"fmt"
 	"strings"
 	"sync"

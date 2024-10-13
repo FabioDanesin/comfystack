@@ -6,10 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Ritorna il numero di versione.
 func getVersion(ctx *gin.Context) {
-	ctx.String(http.StatusAccepted, "1.0.0")
+	ctx.String(http.StatusOK, "1.0.0")
 }
 
-func InitializeSystemEndpoints(eng *gin.Engine) []gin.HandlerFunc {
-	return []gin.HandlerFunc{getVersion}
+// Registra gli endpoint di sistema
+func InitializeSystemEndpoints(eng *gin.Engine) {
+	eng.Group("/api")
+	{
+		eng.GET("/version", getVersion)
+	}
 }
