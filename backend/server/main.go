@@ -3,6 +3,9 @@ package main
 import (
 	"comfystack/endpoints"
 	"comfystack/services"
+	"fmt"
+
+	envvars "comfystack/services/env-vars"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -34,6 +37,7 @@ func main() {
 	if initStatus != nil {
 		os.Exit(1)
 	} else {
-		engine.Run("localhost:8000")
+		siteString := fmt.Sprintf("%s:%s", envvars.Instance.SiteOptions.Root, fmt.Sprint(envvars.Instance.SiteOptions.Port))
+		engine.Run(siteString)
 	}
 }

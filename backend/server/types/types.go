@@ -29,6 +29,6 @@ type PostgresqlConnString struct {
 }
 
 type EnvironmentVariablesFileStructure struct {
-	Dbconn      []PostgresqlConnString `json:"dbconn"`
-	SiteOptions SiteConnectionType     `json:"siteopts"`
+	Dbconn      PostgresqlConnString `json:"dbconn"`
+	SiteOptions SiteConnectionType   `json:"siteopts"`
 }

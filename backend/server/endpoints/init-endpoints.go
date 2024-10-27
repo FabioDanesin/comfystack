@@ -8,5 +8,4 @@ import (
 
 func InitializeEndpoints(engine *gin.Engine) {
 	sys_routes.InitializeSystemEndpoints(engine)
-
 }
