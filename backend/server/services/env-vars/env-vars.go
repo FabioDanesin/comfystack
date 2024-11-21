@@ -11,7 +11,7 @@ var Instance *types.EnvironmentVariablesFileStructure
 
 const environFileName string = "env.json"
 
-func Register_env_vars() {
+func RegisterEnvVars() {
 	var variables types.EnvironmentVariablesFileStructure
 	jsonEnvFile, _ := os.Open(environFileName)
 	buff, _ := io.ReadAll(jsonEnvFile)

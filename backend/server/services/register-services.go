@@ -7,6 +7,6 @@ import (
 
 // Registro servizi.
 func InitServices() {
-	envvars.Register_env_vars()
-	logger.Create_default_logger()
+	envvars.RegisterEnvVars()
+	logger.CreateDefaultLogger()
 }

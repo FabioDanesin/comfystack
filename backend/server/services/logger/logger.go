@@ -8,11 +8,11 @@ type Logger struct {
 
 var Instance *Logger
 
-func Create_default_logger() {
+func CreateDefaultLogger() {
 	Instance = &Logger{std: os.Stdout}
 }
 
-func Create_logger(std *os.File) {
+func CreateLogger(std *os.File) {
 	if std != nil {
 		Instance = &Logger{std: std}
 	}

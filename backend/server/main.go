@@ -38,6 +38,7 @@ func main() {
 		os.Exit(1)
 	} else {
 		siteString := fmt.Sprintf("%s:%s", envvars.Instance.SiteOptions.Root, fmt.Sprint(envvars.Instance.SiteOptions.Port))
+		fmt.Println(siteString)
 		engine.Run(siteString)
 	}
 }

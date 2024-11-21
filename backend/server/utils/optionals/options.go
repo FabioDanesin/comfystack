@@ -8,6 +8,14 @@ func (opt *Optional[T]) HasValue() bool {
 	return opt != nil && opt.value != nil
 }
 
+func (opt *Optional[T]) TryGetValueWithDefault(defaultValue T) *T {
+	if opt.HasValue() {
+		return opt.value
+	} else {
+		return &defaultValue
+	}
+}
+
 func (opt *Optional[T]) TryGetValue() *T {
 	if opt.HasValue() {
 		return opt.value

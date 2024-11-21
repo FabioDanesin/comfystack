@@ -2,15 +2,17 @@ package utils
 
 import (
 	envvars "comfystack/services/env-vars"
-	"context"
-
-	"github.com/jackc/pgx/v5/pgxpool"
+	"database/sql"
 
 	"comfystack/types"
 	"comfystack/utils/functional"
 	"fmt"
 	"strings"
 	"sync"
+
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/driver/pgdriver"
 )
 
 const postgresDbRoot string = "postgresql"
@@ -46,27 +48,18 @@ func buildPostgresqlConnectionString(c types.PostgresqlConnString) string {
 	}
 }
 
-var postgresDbConnection *pgxpool.Pool = nil
-
-func tryBuildPgsqlConnection(conn string) (*pgxpool.Pool, bool) {
-	pool, err := pgxpool.New(context.Background(), conn)
-	if err != nil {
-		return nil, true
-	} else {
-		return pool, false
-	}
+func tryBuildPgsqlConnection(conn string) (*bun.DB, bool) {
+	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(conn)))
+	db := bun.NewDB(sqldb, pgdialect.New())
+	return db, db == nil
 }
 
-func GetConnectionString() *pgxpool.Pool {
-	if postgresDbConnection == nil {
-		conn := buildPostgresqlConnectionString(envvars.Instance.Dbconn)
-		if len(conn) == 0 {
-			return nil
-		} else if pool, err := tryBuildPgsqlConnection(conn); err {
-			return nil
-		} else {
-			postgresDbConnection = pool
-		}
+func GetConnectionString() *bun.DB {
+	conn := buildPostgresqlConnectionString(envvars.Instance.Dbconn)
+	pool, err := tryBuildPgsqlConnection(conn)
+	if len(conn) == 0 || err {
+		return nil
+	} else {
+		return pool
 	}
-	return postgresDbConnection
 }
