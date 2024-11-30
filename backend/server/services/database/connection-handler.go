@@ -2,6 +2,7 @@ package utils
 
 import (
 	envvars "comfystack/services/env-vars"
+	"comfystack/services/logger"
 	"database/sql"
 
 	"comfystack/types"
@@ -13,6 +14,7 @@ import (
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
+	"github.com/uptrace/bun/extra/bundebug"
 )
 
 const postgresDbRoot string = "postgresql"
@@ -41,19 +43,25 @@ func buildPostgresqlConnectionString(c types.PostgresqlConnString) string {
 	pgParams := buildPgParams(c.Paramspecs)
 
 	baseConnString := fmt.Sprintf("%s://%s@%s/%s", postgresDbRoot, userSpecs, hostSpec, c.Dbname)
+	logger.Instance.LogWrite("Database connection string correctly produced")
 	if len(pgParams) == 0 {
+		logger.Instance.LogWrite(baseConnString)
 		return baseConnString
 	} else {
-		return fmt.Sprintf(baseConnString+"?%s", pgParams)
+		rStr := fmt.Sprintf(baseConnString+"?%s", pgParams)
+		logger.Instance.LogWrite(rStr)
+		return rStr
 	}
 }
 
 func tryBuildPgsqlConnection(conn string) (*bun.DB, bool) {
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(conn)))
 	db := bun.NewDB(sqldb, pgdialect.New())
+	db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(true)))
 	return db, db == nil
 }
 
+// Produce una nuova connessione al DB.
 func GetConnectionString() *bun.DB {
 	conn := buildPostgresqlConnectionString(envvars.Instance.Dbconn)
 	pool, err := tryBuildPgsqlConnection(conn)

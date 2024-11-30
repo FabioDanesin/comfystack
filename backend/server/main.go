@@ -1,6 +1,7 @@
 package main
 
 import (
+	models "comfystack/data"
 	"comfystack/endpoints"
 	"comfystack/services"
 	"fmt"
@@ -16,6 +17,8 @@ import (
 func initialize() (*gin.Engine, error) {
 	// Inizializzazione servizi.
 	services.InitServices()
+	// Inizializzazione struttura del db.
+	models.InitializeDatabase()
 	// Inizializzazione engine.
 	return initEngine(nil), nil
 }

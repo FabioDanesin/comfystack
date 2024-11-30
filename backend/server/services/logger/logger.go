@@ -19,5 +19,5 @@ func CreateLogger(std *os.File) {
 }
 
 func (l *Logger) LogWrite(msg string) {
-	l.std.WriteString(msg)
+	l.std.WriteString(msg + "\n")
 }
