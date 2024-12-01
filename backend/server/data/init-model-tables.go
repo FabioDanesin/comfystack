@@ -43,7 +43,14 @@ func initModelTable(model interface{}) {
 func InitializeDatabase() {
 	logger.Instance.LogWrite("Initializing database models...")
 
-	initModelTable((*models.Utente)(nil))
+	models := []interface{}{
+		(*models.Utente)(nil),
+		(*models.Token)(nil),
+	}
 
-	logger.Instance.LogWrite("Finished initializing database models...")
+	for _, item := range models {
+		initModelTable(item)
+	}
+
+	logger.Instance.LogWrite("Finished initializing database models!")
 }
