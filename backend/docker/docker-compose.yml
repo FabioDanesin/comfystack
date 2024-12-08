@@ -11,8 +11,8 @@ services:
     networks:
       - comfynetwork
     volumes:
-      - "./../server/:/comfystack/server/:ro"
-      - "./../../frontend/:/comfystack/templates:ro"
+      - "./../server/:/comfystack/server/:rw" # Deve essere rw dato il download delle dependencies. In alternativa, è da deferire a un init script
+      - "./../../frontend/:/comfystack/templates:rw"
 
   postgres:
     image: "postgres:alpine"
@@ -30,6 +30,6 @@ services:
 
 volumes:
   postgres-data:
-  server-data:
+  comfystack:
 networks:
   comfynetwork:
