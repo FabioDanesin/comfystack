@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	envvars "comfystack/services/env-vars"
+	staticfiles "comfystack/services/static-file-services"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -29,9 +30,11 @@ func initEngine(eng *gin.Engine) *gin.Engine {
 	if eng == nil {
 		eng = gin.Default()
 	}
+
+	staticfiles.InitStaticFileService(eng)
+
 	// Inizializzazione routes.
 	endpoints.InitializeEndpoints(eng)
-
 	return eng
 }
 
