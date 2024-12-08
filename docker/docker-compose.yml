@@ -12,7 +12,6 @@ services:
       - comfynetwork
     volumes:
       - "./../server/:/comfystack/server/:rw" # Deve essere rw dato il download delle dependencies. In alternativa, è da deferire a un init script
-      - "./../../frontend/:/comfystack/templates:rw"
 
   postgres:
     image: "postgres:alpine"

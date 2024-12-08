@@ -1,2 +1,2 @@
 # Start dei container docker.
-doppler run --command "docker compose -f .\backend\docker\docker-compose.yml up"
+doppler run --command "docker compose -f .\docker\docker-compose.yml up"
